@@ -23,6 +23,18 @@
 (defun bb-and-connect ()
   (interactive)
   (let* ((buffer (get-buffer-create bb-buffer-name)))
-    (if (comint-check-proc buffer)
-        (cider-connect '(:host "localhost" :port 1667))
-      (make-comint-in-buffer bb-buffer-name buffer bb-program nil "--nrepl-server"))))
+    (when (not (comint-check-proc buffer))
+      (make-comint-in-buffer bb-buffer-name buffer bb-program nil "--nrepl-server")
+      (sleep-for 2))
+    (cider-connect '(:host "localhost" :port 1667))))
+
+(defun bb-is-babashka ()
+  (and (equal 'clojure-mode major-mode)
+       (equal "bb" (file-name-extension (buffer-file-name (current-buffer))))))
+
+;; to automate even further, automatically create
+;; (add-hook 'clojure-mode-hook
+;;           (lambda ()
+;;             (when (bb-is-babashka)
+;;               (message "Connecting or creating a new bb nrepl server")
+;;               (bb-and-connect))))
