@@ -26,7 +26,9 @@
     (when (not (comint-check-proc buffer))
       (make-comint-in-buffer bb-buffer-name buffer bb-program nil "--nrepl-server")
       (sleep-for 2))
-    (cider-connect '(:host "localhost" :port 1667))))
+    (if (not (seq-empty-p (cider-connections)))
+        (cider-connect-sibling-clj '() (nth 0 (cider-connections)))
+      (cider-connect '(:host "localhost" :port 1667)))))
 
 (defun bb-is-babashka ()
   (and (equal 'clojure-mode major-mode)
