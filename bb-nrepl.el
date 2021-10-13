@@ -19,6 +19,22 @@
 
 (defvar bb-buffer-name "*bb-nrepl*")
 
+(defun session-exists-p ()
+  (let* ((proj-dir (plist-get params :project-dir))
+         (host (plist-get params :host))
+         (port (plist-get params :port))
+         (session (seq-find (lambda (ses)
+                              (let ((ses-params (cider--gather-session-params ses)))
+                                (and (equal proj-dir (plist-get ses-params :project-dir))
+                                     (or (null port)
+                                         (equal port (plist-get ses-params :port)))
+                                     (or (null host)
+                                         (equal host (plist-get ses-params :host))))))
+                            (sesman-current-sessions 'CIDER '(project)))))
+    (when session
+      t
+      nil)))
+
 ;;;###autoload
 (defun bb-and-connect ()
   (interactive)
