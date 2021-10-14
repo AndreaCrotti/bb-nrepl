@@ -5,9 +5,8 @@
 ;; Author: Andrea Crotti <andrea.crotti.0@gmail.com>
 ;; Keywords: cider,clojure
 ;; Version: 1.0
-;; Package-Requires: ((yasnippet "0.8.0"))
-;; Keywords: convenience, snippets
-;; Homepage: https://github.com/AndreaCrotti/yasnippet-snippets
+;; Keywords: cider,clojure
+;; Homepage: https://github.com/AndreaCrotti/bb-nrepl
 
 ;;; Commentary:
 
